@@ -63,7 +63,7 @@ public class OrderService {
     @Data
     private static class Pair{
         private Store key;
-        private Integer value;
+        private Integer value =0;
     }
 
     private List<DeliveryBundle> generateDeliveryBundles(List<DeliveryCost> deliveryCosts, Order order,List<Store> stores) {
@@ -72,7 +72,7 @@ public class OrderService {
         Map<Store, Integer> storeWithCost = getStoreWithCost(deliveryCosts, stores);
 
         // Separate the items in the order
-        List<Item> orderItems = new ArrayList<>(order.getItems());
+        List<Item> orderItems = List.copyOf(order.getItems());
 
         List<DeliveryBundle> deliveryBundles = new ArrayList<>();
 
@@ -92,7 +92,8 @@ public class OrderService {
             List<Item> storeItems = getCommonItems(store, orderItems);
 
             // Remove these items from our main order items list
-            orderItems.removeAll(storeItems);
+            // the orderItems is not removing the items from the list so that can you reassign the items to the out of stock bundle
+            orderItems = orderItems.stream().filter(item -> storeItems.stream().noneMatch(si -> si.getSku().equals(item.getSku()))).toList();
 
             // Create a bundle for these items
             DeliveryBundle bundle = createDeliveryBundle(storeItems, storeWithMaxItemsAndCost, DeliveryState.ASSIGNED_TO_STORE,order);
@@ -187,6 +188,11 @@ public class OrderService {
                 }
             }
         }
+
+        if(maxPair==null){
+            maxPair = new Pair();
+        }
+
         return maxPair;
     }
 
