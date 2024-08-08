@@ -77,13 +77,11 @@ public class OrderService {
     private Map<Store, Integer> getStoreWithCost(List<DeliveryCost> deliveryCosts, List<Store> stores) {
         Map<Store, Integer> storeWithCost = new HashMap<>();
         for (Store store : stores) {
-            String storeZoneId = store.address()
-                    .zoneId();
-            Optional<DeliveryCost> optionalDeliveryCost = deliveryCosts.stream()
-                    .filter(cost -> cost.fromZoneId()
-                            .equals(storeZoneId))
-                    .findFirst();
-            optionalDeliveryCost.ifPresent(deliveryCost -> storeWithCost.put(store, deliveryCost.cost()));
+            String storeZoneId = store.address().zoneId();
+            deliveryCosts.stream()
+                    .filter(cost -> cost.fromZoneId().equals(storeZoneId))
+                    .findFirst()
+                    .ifPresent(deliveryCost -> storeWithCost.put(store, deliveryCost.cost()));
         }
         return storeWithCost;
     }
@@ -103,52 +101,33 @@ public class OrderService {
     private List<Item> getCommonItems(Store store, List<Item> orderItems) {
         List<Item> commonItems = new ArrayList<>();
         for (Item orderItem : orderItems) {
-            for (Stock storeStock : store.stock()) {
-                if (orderItem.sku()
-                        .equals(storeStock.sku())) {
-                    Item commonItem = Item.builder()
+            store.stock().stream()
+                    .filter(storeStock -> orderItem.sku().equals(storeStock.sku()))
+                    .findFirst()
+                    .ifPresent(storeStock -> commonItems.add(Item.builder()
                             .sku(orderItem.sku())
                             .quantity(Math.min(orderItem.quantity(), storeStock.quantity()))
                             .price(orderItem.price())
-                            .build();
-                    commonItems.add(commonItem);
-                    break;
-                }
-            }
+                            .build()));
         }
         return commonItems;
     }
 
     private Pair getStoreWithMaxItemsAndCost(Map<Store, Integer> storeWithCost, List<Item> orderItems) {
-        Pair maxPair = null;
+        Pair maxPair = new Pair();
         int maxItems = 0;
         for (Map.Entry<Store, Integer> entry : storeWithCost.entrySet()) {
             Store store = entry.getKey();
-            Integer cost = entry.getValue();
-            int itemsInStore = 0;
-            for (Item orderItem : orderItems) {
-                for (Stock stockItem : store.stock()) {
-                    if (orderItem.sku()
-                            .equals(stockItem.sku())) {
-                        itemsInStore += Math.min(orderItem.quantity(), stockItem.quantity());
-                    }
-                }
-            }
+            int itemsInStore = (int) orderItems.stream()
+                    .filter(orderItem -> store.stock().stream()
+                            .anyMatch(stockItem -> orderItem.sku().equals(stockItem.sku())))
+                    .count();
 
-            if (itemsInStore > maxItems) {
-                maxPair = new Pair(store, cost);
+            if (itemsInStore > maxItems || (itemsInStore == maxItems && maxPair.value() > entry.getValue())) {
+                maxPair = new Pair(store, entry.getValue());
                 maxItems = itemsInStore;
-            } else if (itemsInStore == maxItems) {
-                if (maxPair != null && maxPair.value() > cost) {
-                    maxPair = new Pair(store, cost);
-                }
             }
         }
-
-        if(maxPair==null){
-            maxPair = new Pair();
-        }
-
         return maxPair;
     }
 
