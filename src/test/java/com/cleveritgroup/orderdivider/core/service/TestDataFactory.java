@@ -39,15 +39,47 @@ public class TestDataFactory {
                     .items(items)
                     .build();
         }
-
+        /**
+         * Returns ITEM_1.
+         * JSON representation:
+         * <pre>{@code
+         * {
+         *   "quantity": 2,
+         *   "price": 10,
+         *   "totalAmount": 20
+         * }
+         * }</pre>
+         */
         public static Item getItem1() {
             return ITEM_1;
         }
 
+        /**
+         * Returns ITEM_2.
+         * JSON representation:
+         * <pre>{@code
+         * {
+         *   "quantity": 3,
+         *   "price": 20,
+         *   "totalAmount": 60
+         * }
+         * }</pre>
+         */
         public static Item getItem2() {
             return ITEM_2;
         }
 
+        /**
+         * Returns ITEM_3.
+         * JSON representation:
+         * <pre>{@code
+         * {
+         *   "quantity": 1,
+         *   "price": 30,
+         *   "totalAmount": 30
+         * }
+         * }</pre>
+         */
         public static Item getItem3() {
             return ITEM_3;
         }
