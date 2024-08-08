@@ -2,13 +2,11 @@ package com.cleveritgroup.orderdivider.framework.adapter.mongo.repository;
 
 import com.cleveritgroup.orderdivider.core.domain.DeliveryCost;
 import com.cleveritgroup.orderdivider.core.port.DeliveryCostRepositoryPort;
-import com.cleveritgroup.orderdivider.framework.adapter.mongo.dto.DeliveryCostDto;
 import com.cleveritgroup.orderdivider.framework.adapter.mongo.mapper.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
