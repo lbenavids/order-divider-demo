@@ -2,7 +2,6 @@ package com.cleveritgroup.orderdivider.core.service;
 
 import com.cleveritgroup.orderdivider.core.domain.*;
 import com.cleveritgroup.orderdivider.core.port.*;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +54,7 @@ public class OrderService {
 
         while(!orderItems.isEmpty()) {
             Pair storeWithMaxItemsAndCost = getStoreWithMaxItemsAndCost(storeWithCost, orderItems);
-            Store store = storeWithMaxItemsAndCost.getKey();
+            Store store = storeWithMaxItemsAndCost.key();
             if(store == null){
                 break;
             }
@@ -92,10 +91,10 @@ public class OrderService {
     private DeliveryBundle createDeliveryBundle(List<Item> storeItems, Pair costStore, DeliveryState deliveryState,Order order) {
         return DeliveryBundle.builder()
                 .items( storeItems.stream()
-                        .map(i -> new ItemBundle(i, Optional.ofNullable(costStore.getKey()).map(Store::storeId).orElse(""))).toList())
+                        .map(i -> new ItemBundle(i, Optional.ofNullable(costStore.key()).map(Store::storeId).orElse(""))).toList())
                 .orderId(order.orderId())
                 .deliveryAddress(order.deliveryAddress())
-                .deliveryCost(costStore.getValue())
+                .deliveryCost(costStore.value())
                 .state(deliveryState)
                 .buyer(order.buyer())
                 .build();
@@ -137,14 +136,11 @@ public class OrderService {
             }
 
             if (itemsInStore > maxItems) {
-                maxPair = new Pair();
-                maxPair.setKey(store);
-                maxPair.setValue(cost);
+                maxPair = new Pair(store, cost);
                 maxItems = itemsInStore;
             } else if (itemsInStore == maxItems) {
-                if (maxPair !=null && maxPair.getValue() > cost) {
-                    maxPair.setKey(store);
-                    maxPair.setValue(cost);
+                if (maxPair != null && maxPair.value() > cost) {
+                    maxPair = new Pair(store, cost);
                 }
             }
         }
@@ -156,9 +152,9 @@ public class OrderService {
         return maxPair;
     }
 
-    @Data
-    private static class Pair {
-        private Store key;
-        private Integer value = 0;
+    private record Pair(Store key, Integer value) {
+        public Pair() {
+            this(null, 0);
+        }
     }
 }
