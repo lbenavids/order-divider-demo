@@ -35,7 +35,6 @@ public class TestDataFactory {
         public static Order createOrderWithItems(List<Item> items) {
             return Order.builder()
                     .orderId("1")
-                    .totalAmount(100)
                     .deliveryAddress(AddressFactory.createAddress("12345"))
                     .buyer(PersonFactory.createPerson())
                     .items(items)
@@ -169,15 +168,15 @@ public class TestDataFactory {
                     StoreFactory.createStore7(), StoreFactory.createStore8()
             );
             String orderZoneId = OrderFactory.createOrderWithItems(List.of())
-                    .getDeliveryAddress()
-                    .getZoneId();
+                    .deliveryAddress()
+                    .zoneId();
             return stores.stream()
                     .map(store -> DeliveryCost.builder()
-                            .fromZoneId(store.getAddress().getZoneId())
+                            .fromZoneId(store.address().zoneId())
                             .toZoneId(orderZoneId)
-                            .cost(Integer.parseInt(store.getAddress().getZoneId())) // Set cost as the integer value of the zoneId
+                            .cost(Integer.parseInt(store.address().zoneId())) // Set cost as the integer value of the zoneId
                             .build())
-                    .collect(Collectors.toList());
+                    .toList();
         }
     }
 }

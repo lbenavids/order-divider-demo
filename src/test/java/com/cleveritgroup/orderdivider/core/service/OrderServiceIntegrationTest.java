@@ -76,7 +76,7 @@ public class OrderServiceIntegrationTest {
 
             assertNotNull(bundles);
             assertEquals(1, bundles.size());
-            assertTrue(bundles.stream().allMatch(bundle -> bundle.getState() == DeliveryState.ASSIGNED_TO_STORE));
+            assertTrue(bundles.stream().allMatch(bundle -> bundle.state() == DeliveryState.ASSIGNED_TO_STORE));
         }
     }
 
@@ -108,7 +108,7 @@ public class OrderServiceIntegrationTest {
 
             assertNotNull(bundles);
             assertEquals(2, bundles.size());
-            assertTrue(bundles.stream().allMatch(bundle -> bundle.getState() == DeliveryState.ASSIGNED_TO_STORE));
+            assertTrue(bundles.stream().allMatch(bundle -> bundle.state() == DeliveryState.ASSIGNED_TO_STORE));
         }
     }
 
@@ -138,7 +138,7 @@ public class OrderServiceIntegrationTest {
 
             assertNotNull(bundles);
             assertEquals(2, bundles.size());
-            assertTrue(bundles.stream().anyMatch(bundle -> bundle.getState() == DeliveryState.OUT_OF_STOCK));
+            assertTrue(bundles.stream().anyMatch(bundle -> bundle.state() == DeliveryState.OUT_OF_STOCK));
         }
     }
 
@@ -169,7 +169,7 @@ public class OrderServiceIntegrationTest {
 
             assertNotNull(bundles);
             assertEquals(1, bundles.size());
-            assertEquals(DeliveryState.OUT_OF_STOCK, bundles.get(0).getState());
+            assertEquals(DeliveryState.OUT_OF_STOCK, bundles.get(0).state());
         }
     }
 }

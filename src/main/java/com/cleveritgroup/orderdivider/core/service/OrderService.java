@@ -23,13 +23,6 @@ public class OrderService {
         List<DeliveryCost> deliveryCosts = calculateDeliveryCosts(stores, order);
         List<DeliveryBundle> bundles = generateDeliveryBundles(deliveryCosts, order,stores);
 
-        int orderAmount= 0;
-        for (Item item : order.getItems()) {
-            item.setTotalAmount(item.getQuantity() * item.getPrice());
-            orderAmount+=item.getTotalAmount();
-        }
-        order.setTotalAmount(orderAmount);
-
         orderRepositoryPort.save(order);
         deliveryBundleRepositoryPort.saveAll(bundles);
 
@@ -39,7 +32,7 @@ public class OrderService {
     private List<Store> getStoresWithItems(Order order) {
         Set<String> orderItemSkus = order.getItems()
                 .stream()
-                .map(Item::getSku)
+                .map(Item::sku)
                 .collect(Collectors.toSet());
 
         return storeRepositoryPort.findStoreWithSkus(orderItemSkus);
@@ -47,12 +40,12 @@ public class OrderService {
 
     private List<DeliveryCost> calculateDeliveryCosts(List<Store> stores, Order order) {
         List<String> fromZoneIds = stores.stream()
-                .map(Store::getAddress)
-                .map(Address::getZoneId)
+                .map(Store::address)
+                .map(Address::zoneId)
                 .collect(Collectors.toList());
 
-        return deliveryCostRepositoryPort.findDeliveryCosts(fromZoneIds, order.getDeliveryAddress()
-                .getZoneId());
+        return deliveryCostRepositoryPort.findDeliveryCosts(fromZoneIds, order.deliveryAddress()
+                .zoneId());
     }
 
     private List<DeliveryBundle> generateDeliveryBundles(List<DeliveryCost> deliveryCosts, Order order,List<Store> stores) {
@@ -68,7 +61,7 @@ public class OrderService {
             }
 
             List<Item> storeItems = getCommonItems(store, orderItems);
-            orderItems = orderItems.stream().filter(item -> storeItems.stream().noneMatch(si -> si.getSku().equals(item.getSku()))).toList();
+            orderItems = orderItems.stream().filter(item -> storeItems.stream().noneMatch(si -> si.sku().equals(item.sku()))).toList();
             DeliveryBundle bundle = createDeliveryBundle(storeItems, storeWithMaxItemsAndCost, DeliveryState.ASSIGNED_TO_STORE,order);
             deliveryBundles.add(bundle);
             storeWithCost.remove(store);
@@ -85,13 +78,13 @@ public class OrderService {
     private Map<Store, Integer> getStoreWithCost(List<DeliveryCost> deliveryCosts, List<Store> stores) {
         Map<Store, Integer> storeWithCost = new HashMap<>();
         for (Store store : stores) {
-            String storeZoneId = store.getAddress()
-                    .getZoneId();
+            String storeZoneId = store.address()
+                    .zoneId();
             Optional<DeliveryCost> optionalDeliveryCost = deliveryCosts.stream()
-                    .filter(cost -> cost.getFromZoneId()
+                    .filter(cost -> cost.fromZoneId()
                             .equals(storeZoneId))
                     .findFirst();
-            optionalDeliveryCost.ifPresent(deliveryCost -> storeWithCost.put(store, deliveryCost.getCost()));
+            optionalDeliveryCost.ifPresent(deliveryCost -> storeWithCost.put(store, deliveryCost.cost()));
         }
         return storeWithCost;
     }
@@ -99,26 +92,26 @@ public class OrderService {
     private DeliveryBundle createDeliveryBundle(List<Item> storeItems, Pair costStore, DeliveryState deliveryState,Order order) {
         return DeliveryBundle.builder()
                 .items( storeItems.stream()
-                        .map(i -> new ItemBundle(i, Optional.ofNullable(costStore.getKey()).map(Store::getStoreId).orElse(""))).toList())
-                .orderId(order.getOrderId())
-                .deliveryAddress(order.getDeliveryAddress())
+                        .map(i -> new ItemBundle(i, Optional.ofNullable(costStore.getKey()).map(Store::storeId).orElse(""))).toList())
+                .orderId(order.orderId())
+                .deliveryAddress(order.deliveryAddress())
                 .deliveryCost(costStore.getValue())
                 .state(deliveryState)
-                .buyer(order.getBuyer())
+                .buyer(order.buyer())
                 .build();
     }
 
     private List<Item> getCommonItems(Store store, List<Item> orderItems) {
         List<Item> commonItems = new ArrayList<>();
         for (Item orderItem : orderItems) {
-            for (Stock storeStock : store.getStock()) {
-                if (orderItem.getSku()
-                        .equals(storeStock.getSku())) {
-                    Item commonItem = new Item();
-                    commonItem.setSku(orderItem.getSku());
-                    commonItem.setQuantity(Math.min(orderItem.getQuantity(), storeStock.getQuantity()));
-                    commonItem.setPrice(orderItem.getPrice());
-                    commonItem.setTotalAmount(commonItem.getPrice() * commonItem.getQuantity());
+            for (Stock storeStock : store.stock()) {
+                if (orderItem.sku()
+                        .equals(storeStock.sku())) {
+                    Item commonItem = Item.builder()
+                            .sku(orderItem.sku())
+                            .quantity(Math.min(orderItem.quantity(), storeStock.quantity()))
+                            .price(orderItem.price())
+                            .build();
                     commonItems.add(commonItem);
                     break;
                 }
@@ -135,10 +128,10 @@ public class OrderService {
             Integer cost = entry.getValue();
             int itemsInStore = 0;
             for (Item orderItem : orderItems) {
-                for (Stock stockItem : store.getStock()) {
-                    if (orderItem.getSku()
-                            .equals(stockItem.getSku())) {
-                        itemsInStore += Math.min(orderItem.getQuantity(), stockItem.getQuantity());
+                for (Stock stockItem : store.stock()) {
+                    if (orderItem.sku()
+                            .equals(stockItem.sku())) {
+                        itemsInStore += Math.min(orderItem.quantity(), stockItem.quantity());
                     }
                 }
             }

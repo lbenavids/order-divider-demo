@@ -1,17 +1,11 @@
 package com.cleveritgroup.orderdivider.core.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class Item {
-    protected String sku;
-    protected int quantity;
-    protected int price;
-    protected int totalAmount;
+public record Item(String sku, int quantity, int price) {
+
+    public int totalAmount() {
+        return quantity * price;
+    }
 }

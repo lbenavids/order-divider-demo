@@ -7,39 +7,39 @@ public class Mapper {
 
     public static OrderDto toDTO(Order order) {
         return OrderDto.builder()
-                .orderId(order.getOrderId())
+                .orderId(order.orderId())
                 .items(order.getItems().stream().map(Mapper::toDTO).toList())
-                .deliveryAddress(toDTO(order.getDeliveryAddress()))
-                .totalAmount(order.getTotalAmount())
-                .buyer(toDTO(order.getBuyer()))
+                .deliveryAddress(toDTO(order.deliveryAddress()))
+                .totalAmount(order.totalAmount())
+                .buyer(toDTO(order.buyer()))
                 .build();
     }
 
     public static ItemDto toDTO(Item item) {
         return ItemDto.builder()
-                .sku(item.getSku())
-                .quantity(item.getQuantity())
-                .price(item.getPrice())
-                .totalAmount(item.getTotalAmount())
+                .sku(item.sku())
+                .quantity(item.quantity())
+                .price(item.price())
+                .totalAmount(item.totalAmount())
                 .build();
     }
 
     public static AddressDto toDTO(Address address) {
         return AddressDto.builder()
-                .street(address.getStreet())
-                .city(address.getCity())
-                .state(address.getState())
-                .zoneId(address.getZoneId())
-                .country(address.getCountry())
+                .street(address.street())
+                .city(address.city())
+                .state(address.state())
+                .zoneId(address.zoneId())
+                .country(address.country())
                 .build();
     }
 
     public static PersonDto toDTO(Person person) {
         return PersonDto.builder()
-                .firstName(person.getFirstName())
-                .lastName(person.getLastName())
-                .email(person.getEmail())
-                .phoneNumber(person.getPhoneNumber())
+                .firstName(person.firstName())
+                .lastName(person.lastName())
+                .email(person.email())
+                .phoneNumber(person.phoneNumber())
                 .build();
     }
 
@@ -55,9 +55,9 @@ public class Mapper {
 
     public static DeliveryCostDto toDTO(DeliveryCost deliveryCost) {
         return DeliveryCostDto.builder()
-                .fromZoneId(deliveryCost.getFromZoneId())
-                .toZoneId(deliveryCost.getToZoneId())
-                .cost(deliveryCost.getCost())
+                .fromZoneId(deliveryCost.fromZoneId())
+                .toZoneId(deliveryCost.toZoneId())
+                .cost(deliveryCost.cost())
                 .build();
     }
 
@@ -71,16 +71,16 @@ public class Mapper {
 
     public static StoreDto toDTO(Store store) {
         return StoreDto.builder()
-                .storeId(store.getStoreId())
-                .address(toDTO(store.getAddress()))
-                .stock(store.getStock().stream().map(Mapper::toDTO).toList())
+                .storeId(store.storeId())
+                .address(toDTO(store.address()))
+                .stock(store.stock().stream().map(Mapper::toDTO).toList())
                 .build();
     }
 
     public static StockDto toDTO(Stock stock) {
         return StockDto.builder()
-                .sku(stock.getSku())
-                .quantity(stock.getQuantity())
+                .sku(stock.sku())
+                .quantity(stock.quantity())
                 .build();
     }
 
@@ -101,14 +101,14 @@ public class Mapper {
 
     public static DeliveryBundleDto toDTO(DeliveryBundle bundle) {
         return DeliveryBundleDto.builder()
-                .id(bundle.getId())
-                .orderId(bundle.getOrderId())
+                .id(bundle.id())
+                .orderId(bundle.orderId())
                 .items(bundle.getItems().stream().map(Mapper::toDTO).toList())
-                .deliveryAddress(toDTO(bundle.getDeliveryAddress()))
+                .deliveryAddress(toDTO(bundle.deliveryAddress()))
                 .totalAmount(bundle.getTotalAmount())
-                .state(bundle.getState())
-                .deliveryCost(bundle.getDeliveryCost())
-                .buyer(toDTO(bundle.getBuyer()))
+                .state(bundle.state())
+                .deliveryCost(bundle.deliveryCost())
+                .buyer(toDTO(bundle.buyer()))
                 .build();
     }
 
@@ -117,8 +117,8 @@ public class Mapper {
                 .sku(itemBundle.getSku())
                 .quantity(itemBundle.getQuantity())
                 .price(itemBundle.getPrice())
-                .totalAmount(itemBundle.getTotalAmount())
-                .storeId(itemBundle.getStoreId())
+                .totalAmount(itemBundle.totalAmount())
+                .storeId(itemBundle.storeId())
                 .build();
     }
 
