@@ -2,7 +2,6 @@ package com.cleveritgroup.orderdivider.framework.adapter.mongo.dto;
 
 import com.cleveritgroup.orderdivider.core.domain.DeliveryState;
 import lombok.Builder;
-import lombok.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

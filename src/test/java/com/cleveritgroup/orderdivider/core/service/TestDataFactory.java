@@ -9,7 +9,6 @@ import com.cleveritgroup.orderdivider.core.domain.Stock;
 import com.cleveritgroup.orderdivider.core.domain.Store;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TestDataFactory {
 
