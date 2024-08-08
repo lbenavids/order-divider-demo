@@ -45,11 +45,11 @@ public class Mapper {
 
     public static Address toDomain(AddressDto addressDto) {
         return Address.builder()
-                .street(addressDto.getStreet())
-                .city(addressDto.getCity())
-                .state(addressDto.getState())
-                .zoneId(addressDto.getZoneId())
-                .country(addressDto.getCountry())
+                .street(addressDto.street())
+                .city(addressDto.city())
+                .state(addressDto.state())
+                .zoneId(addressDto.zoneId())
+                .country(addressDto.country())
                 .build();
     }
 
@@ -63,9 +63,9 @@ public class Mapper {
 
     public static DeliveryCost toDomain(DeliveryCostDto deliveryCostDto) {
         return DeliveryCost.builder()
-                .fromZoneId(deliveryCostDto.getFromZoneId())
-                .toZoneId(deliveryCostDto.getToZoneId())
-                .cost(deliveryCostDto.getCost())
+                .fromZoneId(deliveryCostDto.fromZoneId())
+                .toZoneId(deliveryCostDto.toZoneId())
+                .cost(deliveryCostDto.cost())
                 .build();
     }
 
@@ -86,16 +86,16 @@ public class Mapper {
 
     public static Store toDomain(StoreDto storeDto) {
         return Store.builder()
-                .storeId(storeDto.getStoreId())
-                .address(toDomain(storeDto.getAddress()))
-                .stock(storeDto.getStock().stream().map(Mapper::toDomain).toList())
+                .storeId(storeDto.storeId())
+                .address(toDomain(storeDto.address()))
+                .stock(storeDto.stock().stream().map(Mapper::toDomain).toList())
                 .build();
     }
 
     public static Stock toDomain(StockDto stockDto) {
         return Stock.builder()
-                .sku(stockDto.getSku())
-                .quantity(stockDto.getQuantity())
+                .sku(stockDto.sku())
+                .quantity(stockDto.quantity())
                 .build();
     }
 
