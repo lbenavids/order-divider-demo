@@ -1,4 +1,4 @@
-package com.cleveritgroup.orderdivider.core.domain;
+package com.cleveritgroup.orderdivider.framework.adapter.mongo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,14 +9,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
+@Document
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Order {
+public class OrderDto {
+    @Id
     private String orderId;
-    private List<Item> items;
-    private Address deliveryAddress;
+    private List<ItemDto> items;
+    private AddressDto deliveryAddress;
     private int totalAmount;
-    private Person buyer;
+    private PersonDto buyer;
 }

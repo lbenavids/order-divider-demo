@@ -1,4 +1,4 @@
-package com.cleveritgroup.orderdivider.core.domain;
+package com.cleveritgroup.orderdivider.framework.adapter.mongo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
+@Document
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Person {
+public class PersonDto {
     private String firstName;
     private String lastName;
     private String email;

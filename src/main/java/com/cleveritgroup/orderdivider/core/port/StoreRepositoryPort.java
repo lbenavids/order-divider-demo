@@ -8,4 +8,6 @@ import java.util.Set;
 
 public interface StoreRepositoryPort {
     List<Store> findStoreWithSkus(Set<String> orderItemSkus);
+
+    void saveAll(List<Store> stores);
 }

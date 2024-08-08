@@ -5,10 +5,15 @@ import com.cleveritgroup.orderdivider.core.domain.DeliveryBundle;
 import com.cleveritgroup.orderdivider.core.domain.DeliveryState;
 import com.cleveritgroup.orderdivider.core.domain.Item;
 import com.cleveritgroup.orderdivider.core.domain.Order;
-import com.cleveritgroup.orderdivider.framework.repository.DeliveryBundleRepository;
-import com.cleveritgroup.orderdivider.framework.repository.DeliveryCostRepository;
-import com.cleveritgroup.orderdivider.framework.repository.OrderRepository;
-import com.cleveritgroup.orderdivider.framework.repository.StoreRepository;
+import com.cleveritgroup.orderdivider.core.port.DeliveryBundleRepositoryPort;
+import com.cleveritgroup.orderdivider.core.port.DeliveryCostRepositoryPort;
+import com.cleveritgroup.orderdivider.core.port.OrderRepositoryPort;
+import com.cleveritgroup.orderdivider.core.port.StoreRepositoryPort;
+import com.cleveritgroup.orderdivider.framework.adapter.mongo.repository.DeliveryBundleRepository;
+import com.cleveritgroup.orderdivider.framework.adapter.mongo.repository.DeliveryCostRepository;
+import com.cleveritgroup.orderdivider.framework.adapter.mongo.repository.OrderRepository;
+import com.cleveritgroup.orderdivider.framework.adapter.mongo.repository.StoreRepository;
+import com.cleveritgroup.orderdivider.framework.adapter.mongo.repository.StoreRepositoryAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -36,16 +41,16 @@ public class OrderServiceIntegrationTest {
     private OrderService orderService;
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderRepositoryPort orderRepository;
 
     @Autowired
-    private StoreRepository storeRepository;
+    private StoreRepositoryPort storeRepository;
 
     @Autowired
-    private DeliveryCostRepository deliveryCostRepository;
+    private DeliveryCostRepositoryPort deliveryCostRepository;
 
     @Autowired
-    private DeliveryBundleRepository deliveryBundleRepository;
+    private DeliveryBundleRepositoryPort deliveryBundleRepository;
 
     @Nested
     @DisplayName("Fully Deliverable Order")

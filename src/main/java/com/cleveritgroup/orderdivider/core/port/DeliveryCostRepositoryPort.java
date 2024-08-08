@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface DeliveryCostRepositoryPort {
     List<DeliveryCost> findDeliveryCosts(List<String> fromZoneIds, String zoneId);
+
+    void saveAll(List<DeliveryCost> deliveryCosts);
 }
