@@ -1,4 +1,4 @@
-package com.cleveritgroup.orderdivider.entity;
+package com.cleveritgroup.orderdivider.core.domain;
 
 import lombok.Builder;
 import lombok.Data;

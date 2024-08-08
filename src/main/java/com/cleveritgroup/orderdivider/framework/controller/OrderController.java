@@ -1,8 +1,8 @@
-package com.cleveritgroup.orderdivider.controller;
+package com.cleveritgroup.orderdivider.framework.controller;
 
-import com.cleveritgroup.orderdivider.entity.DeliveryBundle;
-import com.cleveritgroup.orderdivider.entity.Order;
-import com.cleveritgroup.orderdivider.service.OrderService;
+import com.cleveritgroup.orderdivider.core.domain.DeliveryBundle;
+import com.cleveritgroup.orderdivider.core.domain.Order;
+import com.cleveritgroup.orderdivider.application.OrderApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,12 +16,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final OrderService orderService;
-
+    private final OrderApplicationService orderApplicationService;
 
     @PostMapping
     public List<DeliveryBundle> processOrder(@RequestBody Order order) {
-        return orderService.splitOrder(order);
+        return orderApplicationService.splitOrder(order);
     }
-
 }

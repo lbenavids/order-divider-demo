@@ -1,6 +1,6 @@
-package com.cleveritgroup.orderdivider.repository;
+package com.cleveritgroup.orderdivider.framework.repository;
 
-import com.cleveritgroup.orderdivider.entity.Store;
+import com.cleveritgroup.orderdivider.core.domain.Store;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 

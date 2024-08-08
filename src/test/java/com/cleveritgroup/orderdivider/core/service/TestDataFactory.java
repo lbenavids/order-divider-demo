@@ -1,6 +1,12 @@
-package com.cleveritgroup.orderdivider.service;
+package com.cleveritgroup.orderdivider.core.service;
 
-import com.cleveritgroup.orderdivider.entity.*;
+import com.cleveritgroup.orderdivider.core.domain.Address;
+import com.cleveritgroup.orderdivider.core.domain.DeliveryCost;
+import com.cleveritgroup.orderdivider.core.domain.Item;
+import com.cleveritgroup.orderdivider.core.domain.Order;
+import com.cleveritgroup.orderdivider.core.domain.Person;
+import com.cleveritgroup.orderdivider.core.domain.Stock;
+import com.cleveritgroup.orderdivider.core.domain.Store;
 
 import java.util.List;
 import java.util.stream.Collectors;

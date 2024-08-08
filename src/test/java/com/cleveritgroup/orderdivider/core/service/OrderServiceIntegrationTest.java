@@ -1,14 +1,14 @@
-package com.cleveritgroup.orderdivider.service;
+package com.cleveritgroup.orderdivider.core.service;
 
 import com.cleveritgroup.orderdivider.TestcontainersConfiguration;
-import com.cleveritgroup.orderdivider.entity.DeliveryBundle;
-import com.cleveritgroup.orderdivider.entity.DeliveryState;
-import com.cleveritgroup.orderdivider.entity.Item;
-import com.cleveritgroup.orderdivider.entity.Order;
-import com.cleveritgroup.orderdivider.repository.DeliveryBundleRepository;
-import com.cleveritgroup.orderdivider.repository.DeliveryCostRepository;
-import com.cleveritgroup.orderdivider.repository.OrderRepository;
-import com.cleveritgroup.orderdivider.repository.StoreRepository;
+import com.cleveritgroup.orderdivider.core.domain.DeliveryBundle;
+import com.cleveritgroup.orderdivider.core.domain.DeliveryState;
+import com.cleveritgroup.orderdivider.core.domain.Item;
+import com.cleveritgroup.orderdivider.core.domain.Order;
+import com.cleveritgroup.orderdivider.framework.repository.DeliveryBundleRepository;
+import com.cleveritgroup.orderdivider.framework.repository.DeliveryCostRepository;
+import com.cleveritgroup.orderdivider.framework.repository.OrderRepository;
+import com.cleveritgroup.orderdivider.framework.repository.StoreRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

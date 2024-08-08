@@ -1,4 +1,4 @@
-package com.cleveritgroup.orderdivider.entity;
+package com.cleveritgroup.orderdivider.core.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,16 +9,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document
 @Data
+@Document
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Order {
+public class Store {
     @Id
-    private String orderId;
-    private List<Item> items;
-    private Address deliveryAddress;
-    private int totalAmount;
-    private Person buyer;
+    private String storeId;
+    private Address address;
+    private List<Stock> stock;
 }
