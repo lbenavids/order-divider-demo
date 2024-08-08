@@ -1,5 +1,6 @@
 package com.cleveritgroup.orderdivider.framework.adapter.mongo.dto;
 
+import com.cleveritgroup.orderdivider.core.domain.DeliveryState;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -17,7 +18,7 @@ public class DeliveryBundleDto {
     private List<ItemBundleDto> items;
     private AddressDto deliveryAddress;
     private Integer totalAmount;
-    private DeliveryStateDto state;
+    private DeliveryState state;
     private int deliveryCost;
     private PersonDto buyer;
 }
